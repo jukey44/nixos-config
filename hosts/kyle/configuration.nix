@@ -153,7 +153,6 @@ fonts.fontconfig.enable = true;  # keep, but trim /etc/fonts/conf.d if needed
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-    fish
     kitty
     fuzzel
     discord
