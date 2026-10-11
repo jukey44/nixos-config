@@ -27,6 +27,7 @@
         # so the old configuration file still takes effect
         ./hosts/kyle/configuration.nix
         ./hosts/kyle/noctalia.nix
+        { system.configurationRevision = self.rev or self.dirtyRev or null; }
         opendeck.nixosModules.default
       ];
       

@@ -110,6 +110,7 @@ fonts.fontconfig.enable = true;  # keep, but trim /etc/fonts/conf.d if needed
   
 };
 
+  programs.fish.enable = true;
   programs.git.enable = true;
   programs.opendeck.enable = true;
   programs.nano.enable =false;
@@ -138,8 +139,17 @@ fonts.fontconfig.enable = true;  # keep, but trim /etc/fonts/conf.d if needed
   # $ nix search wget
 
   # configuration.nix
-environment.variables.EDITOR = "hx";
+  environment.variables.EDITOR = "hx";
   
+    
+  environment.shellAliases = {
+    rebuild = "git -C ~/nixos-config add . && sudo nixos-rebuild switch --flake ~/nixos-config#kyle";
+    update  = "nix flake update --flake ~/nixos-config && rebuild";
+    gens    = "nixos-rebuild list-generations";
+    gc      = "sudo nix-collect-garbage --delete-older-than 14d";
+  };
+
+
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
