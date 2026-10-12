@@ -1,54 +1,42 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# Desktop (kyle): system-level config.
+# User-level apps and dotfiles move to home/desktop.nix once home-manager is on.
 
 { config, pkgs, inputs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
-  # Bootloader.
+  # ---------------------------------------------------------------- Boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-  services.resolved.enable = true;
-  networking.networkmanager.dns = "systemd-resolved";
-  hardware.enableRedistributableFirmware = true;
-  
-  # Disable GP13
-  services.udev.extraRules = ''
-  ACTION=="add", SUBSYSTEM=="pci", KERNEL=="0000:00:08.1", ATTR{power/wakeup}="disabled"
-'';   
   boot.supportedFilesystems = [ "ntfs" ];
-  #mnt files
+
+  # ---------------------------------------------------------- Networking
+  networking.hostName = "kyle";
+  networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
+  services.resolved.enable = true;
+  hardware.enableRedistributableFirmware = true;
+
+  # ------------------------------------------------------------- Storage
   fileSystems."/mnt/steamstorage" = {
-  device = "/dev/disk/by-label/extrastorage";
-  fsType = "ext4";
-  options = [ "nofail"];
-};   
-   fileSystems."/mnt/Wstorage" = {
-  device = "/dev/disk/by-label/NewVolume";
-  fsType = "ntfs-3g";
-  options = [ "nofail" "rw" "uid=1000" ];
-}; 
-  # Set your time zone.
+    device = "/dev/disk/by-label/extrastorage";
+    fsType = "ext4";
+    options = [ "nofail" ];
+  };
+
+  fileSystems."/mnt/Wstorage" = {
+    device = "/dev/disk/by-label/NewVolume";
+    fsType = "ntfs-3g";
+    options = [ "nofail" "rw" "uid=1000" ];
+  };
+
+  # -------------------------------------------------- Locale and keyboard
   time.timeZone = "America/Detroit";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
     LC_IDENTIFICATION = "en_US.UTF-8";
@@ -61,91 +49,93 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
 
-  
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # ---------------------------------------------------------------- Nix
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
+
+  # --------------------------------------------------------------- User
   users.users."kyle" = {
     isNormalUser = true;
     description = "kyle";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
   };
 
-#flake setup
-nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # -------------------------------------------------------------- Fonts
+  fonts.fontconfig.enable = true;
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  #fonts
+  # ----------------------------------------------------------- Programs
+  programs.fish.enable = true;
+  programs.git.enable = true;       # move to home-manager later if you want
+  programs.nano.enable = false;
+  programs.niri.enable = true;
+  programs.nix-ld.enable = true;
+  programs.opendeck.enable = true;  # from the opendeck flake module
 
-# autostart opendeck
-environment.etc."xdg/autostart/opendeck.desktop".text = ''
-  [Desktop Entry]
-  Type=Application
-  Name=OpenDeck
-  Exec=flatpak run me.amankhanna.opendeck --hide
-  X-GNOME-Autostart-enabled=true
-'';   
-  
-  # configuration.nix
-fonts.fonts = [ ];  # remove unused fonts
-# Or disable specific problematic configs:
-fonts.fontconfig.enable = true;  # keep, but trim /etc/fonts/conf.d if needed
+  programs.steam = {
+    enable = true;
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
+  };
 
-# Obs plugins
- programs.obs-studio = {
+  programs.obs-studio = {
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [
       obs-pipewire-audio-capture
     ];
   };
 
-#programs
-  programs.steam = {
-  enable = true;
-  extraCompatPackages = with pkgs; [
-    proton-ge-bin
-  ];
-  
-};
+  # ----------------------------------------------------------- Services
+  services.flatpak.enable = true;
+  services.ratbagd.enable = true;
 
-  programs.fish.enable = true;
-  programs.git.enable = true;
-  programs.opendeck.enable = true;
-  programs.nano.enable =false;
-  programs.niri.enable = true;
-  programs.nix-ld.enable = true;    
-  # Services
-  services.udev.packages = [
-  (pkgs.writeTextFile {
-    name = "70-ulanzi-d200.rules";
-    destination = "/etc/udev/rules.d/70-ulanzi-d200.rules";
-    text = ''
-      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2207", ATTRS{idProduct}=="0019", MODE="0660", TAG+="uaccess"
-    '';
-  })
-];
-  services.flatpak.enable = true;   
   services.hardware.openrgb = {
-  enable = true;
-  motherboard = "amd";  # or "intel" — loads i2c-piix4 or i2c-i801
-  package = pkgs.openrgb-with-all-plugins;  # all plugins, not just core
-  server.port = 6742;
-  startupProfile = "my-profile.json";  # optional: load a profile at boot
-};   
+    enable = true;
+    motherboard = "amd";
+    package = pkgs.openrgb-with-all-plugins;
+    server.port = 6742;
+    startupProfile = "my-profile.json";
+  };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # Stop the GP13 PCI device from waking the machine
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="pci", KERNEL=="0000:00:08.1", ATTR{power/wakeup}="disabled"
+  '';
 
-  # configuration.nix
+  # Ulanzi D200 access. This stays a "70-" rules package on purpose: the
+  # uaccess tag has to be applied before systemd's 73-seat-late rules, which
+  # extraRules (99-local.rules) would be too late for.
+  services.udev.packages = [
+    (pkgs.writeTextFile {
+      name = "70-ulanzi-d200.rules";
+      destination = "/etc/udev/rules.d/70-ulanzi-d200.rules";
+      text = ''
+        KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2207", ATTRS{idProduct}=="0019", MODE="0660", TAG+="uaccess"
+      '';
+    })
+  ];
+
+  # NOTE: this autostarts the Flatpak build of OpenDeck, but programs.opendeck
+  # above installs the Nix one. Pick one and delete the other.
+  environment.etc."xdg/autostart/opendeck.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=OpenDeck
+    Exec=flatpak run me.amankhanna.opendeck --hide
+    X-GNOME-Autostart-enabled=true
+  '';
+
+  security.pam.services.swaylock = { };  # needed for swaylock to unlock
+
+  # -------------------------------------------------------- Environment
   environment.variables.EDITOR = "hx";
-  
-    
+
   environment.shellAliases = {
     rebuild = "git -C ~/nixos-config add . && sudo nixos-rebuild switch --flake ~/nixos-config#kyle";
     update  = "nix flake update --flake ~/nixos-config && rebuild";
@@ -153,72 +143,26 @@ fonts.fontconfig.enable = true;  # keep, but trim /etc/fonts/conf.d if needed
     gc      = "sudo nix-collect-garbage --delete-older-than 14d";
   };
 
-
+  # System essentials
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-    kitty
-    fuzzel
-    discord
     helix
-    steam
-    niri
-    brave
-    inputs.xwayland-satellite.packages.x86_64-linux.xwayland-satellite
-    mangohud
-    goverlay
-    swaylock
-    yazi
-    vlc
-    disktui
-    fastfetch
-    easyeffects
-    openrgb
-    btop
-    htop
-    kdePackages.kdenlive
     ntfs3g
-    wine
-    gimp
-    krita
-    pkgs.piper
-    pkgs.libratbag
-    superfile
-    pkgs.bibata-cursors
-    
-  ];
- /* nixpkgs.config.permittedInsecurePackages = [
-                "nodejs-20.20.2"
-                "nodejs-slim-20.20.2"
-              ];*/
-security.pam.services.swaylock = {};
-services.ratbagd.enable = true;
+    libratbag
+    inputs.xwayland-satellite.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite
+  ]
+  # User apps: they move to home/desktop.nix once home-manager is on the desktop.
+  ++ (with pkgs; [
+    # terminal and files
+    kitty yazi superfile fastfetch btop htop disktui
+    # apps
+    brave discord vlc gimp krita kdePackages.kdenlive easyeffects wine
+    # gaming overlays
+    mangohud goverlay
+    # launcher, lock screen, mouse config, cursor theme
+    fuzzel swaylock piper bibata-cursors
+  ]);
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "26.05"; # Did you read the comment?
-
+  # Do not change this after install, even when upgrading NixOS.
+  system.stateVersion = "26.05";
 }
