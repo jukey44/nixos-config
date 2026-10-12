@@ -41,14 +41,14 @@
           opendeck.nixosModules.default
 
           # Turn this on once home/desktop.nix exists:
-          # home-manager.nixosModules.home-manager
-          # {
-          #   home-manager.useGlobalPkgs = true;
-          #   home-manager.useUserPackages = true;
-          #   home-manager.backupFileExtension = "backup";
-          #   home-manager.extraSpecialArgs = { inherit inputs; };
-          #   home-manager.users.kyle = import ./home/desktop.nix;
-          # }
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.kyle = import ./home/desktop.nix;
+          }
         ];
       };
 

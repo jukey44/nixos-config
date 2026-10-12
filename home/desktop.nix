@@ -1,0 +1,29 @@
+{ config, pkgs, inputs, ... }:
+{
+  imports = [ ./terminal.nix ];
+
+  home.username = "kyle";
+  home.homeDirectory = "/home/kyle";
+  home.stateVersion = "26.05";     # matches your system.stateVersion
+
+  home.packages = with pkgs; [
+    # terminal and files
+    kitty yazi superfile fastfetch btop htop disktui
+    # apps
+    brave discord vlc gimp krita kdePackages.kdenlive easyeffects wine
+    # gaming overlays
+    mangohud goverlay
+    # launcher and lock screen
+    fuzzel swaylock
+    # mouse config GUI (the ratbagd service stays in configuration.nix)
+    piper
+  ];
+
+  # Optional: actually applies the cursor theme (installing the package alone doesn't)
+  home.pointerCursor = {
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 24;
+    gtk.enable = true;
+  };
+}
