@@ -77,7 +77,6 @@
   programs.nano.enable = false;
   programs.niri.enable = true;
   programs.nix-ld.enable = true;
-  # programs.opendeck.enable = true;  # from the opendeck flake module
 
   programs.steam = {
     enable = true;
@@ -150,7 +149,7 @@
     # gaming overlays
     mangohud goverlay
     # launcher, lock screen, mouse config, cursor theme
-    fuzzel swaylock piper bibata-cursors
+    fuzzel swaylock  bibata-cursors
   ]);
 
   # Do not change this after install, even when upgrading NixOS.
