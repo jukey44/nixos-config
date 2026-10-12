@@ -153,7 +153,6 @@ programs.rog-control-center = {
     enable = true;
   };
 programs.fish.enable = true;
-users.users.kyle.shell = pkgs.fish;   
 
   # ✅ Enable Steam module (Handles dependencies automatically)
   programs.niri.enable = true;
