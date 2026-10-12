@@ -9,7 +9,7 @@ output "eDP-1" {
 spawn-at-startup "sh" "-c" "gdbus wait --session org.kde.StatusNotifierWatcher && rog-control-center"
 
 binds {
-    XF86TouchpadToggle { spawn "/home/kyle/.local/bin/touchpad-toggle"; }
+    XF86TouchpadToggle { spawn-sh "~/.local/bin/touchpad-toggle"; }
     XF86Launch4 { spawn "/home/kyle/.local/bin/power-cycle"; }
     XF86Launch1 { spawn "rog-control-center"; }
     Mod+Shift+T { spawn "/home/kyle/.local/bin/ps5-touchpad-toggle"; }
