@@ -23,6 +23,10 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  services.resolved.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
+  hardware.enableRedistributableFirmware = true;
+  
   # Disable GP13
   services.udev.extraRules = ''
   ACTION=="add", SUBSYSTEM=="pci", KERNEL=="0000:00:08.1", ATTR{power/wakeup}="disabled"
@@ -163,7 +167,6 @@ fonts.fontconfig.enable = true;  # keep, but trim /etc/fonts/conf.d if needed
     inputs.xwayland-satellite.packages.x86_64-linux.xwayland-satellite
     mangohud
     goverlay
-    inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.protonplus
     swaylock
     yazi
     vlc
