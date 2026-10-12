@@ -24,10 +24,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # opendeck.url = "github:Kitt3120/opendeck-nix";   # desktop only
   };
 
-  outputs = { self, nixpkgs, home-manager, /*opendeck,*/ ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations = {
 
       # Desktop PC

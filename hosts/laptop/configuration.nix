@@ -93,7 +93,6 @@ security.sudo = {
     inputs.noctalia.overlays.default # Check if noctalia provides an overlay, otherwise stick to packages
   ];
 
-  programs.niri.enable = true;
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
   services.thermald.enable = true;
