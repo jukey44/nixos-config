@@ -3,8 +3,8 @@
   imports = [
     inputs.niri.homeModules.niri
     inputs.noctalia.homeModules.default
-    ./niri.nix              # shared niri config (move to shared.nix later)
     ./terminal.nix
+    ./shared.nix
   ];
 
   nixpkgs.config.allowUnfree = true;

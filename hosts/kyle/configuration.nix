@@ -137,21 +137,9 @@
     wget
     helix
     ntfs3g
-    libratbag
     inputs.xwayland-satellite.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite
     vmware-workstation
-  ]
-  # User apps: they move to home/desktop.nix once home-manager is on the desktop.
-  ++ (with pkgs; [
-    # terminal and files
-    kitty yazi superfile fastfetch btop htop disktui
-    # apps
-    brave discord vlc gimp krita kdePackages.kdenlive easyeffects wine
-    # gaming overlays
-    mangohud goverlay
-    # launcher, lock screen, mouse config, cursor theme
-    fuzzel swaylock  bibata-cursors
-  ]);
+  ];
 
   # Do not change this after install, even when upgrading NixOS.
   system.stateVersion = "26.05";

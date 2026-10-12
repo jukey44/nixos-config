@@ -1,6 +1,6 @@
 { config, pkgs, inputs, ... }:
 {
-  imports = [ ./terminal.nix ];
+  imports = [ ./terminal.nix ./shared.nix];
 
   home.username = "kyle";
   home.homeDirectory = "/home/kyle";
