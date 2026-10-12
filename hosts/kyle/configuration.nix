@@ -92,7 +92,6 @@
 
   # ----------------------------------------------------------- Services
   services.flatpak.enable = true;
-  services.ratbagd.enable = true;
 
   services.hardware.openrgb = {
     enable = true;
@@ -130,6 +129,7 @@
     update  = "nix flake update --flake ~/nixos-config && rebuild";
     gens    = "nixos-rebuild list-generations";
     gc      = "sudo nix-collect-garbage --delete-older-than 14d";
+    nc = "cd nixos-config";
   };
 
   # System essentials
@@ -139,6 +139,7 @@
     ntfs3g
     libratbag
     inputs.xwayland-satellite.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite
+    vmware-workstation
   ]
   # User apps: they move to home/desktop.nix once home-manager is on the desktop.
   ++ (with pkgs; [
