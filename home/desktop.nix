@@ -7,14 +7,9 @@
   home.stateVersion = "26.05";     # matches your system.stateVersion
 
   home.packages = with pkgs; [
-    # terminal and files
-    kitty yazi superfile fastfetch btop htop disktui
+
     # apps
-    brave discord vlc gimp krita kdePackages.kdenlive easyeffects wine
-    # gaming overlays
-    mangohud goverlay
-    # launcher and lock screen
-    fuzzel swaylock
+     vlc gimp krita kdePackages.kdenlive easyeffects
   ];
 
   # Optional: actually applies the cursor theme (installing the package alone doesn't)

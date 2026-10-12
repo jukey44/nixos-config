@@ -41,18 +41,11 @@
   };
 
   home.packages = with pkgs; [
-    kitty
-    fastfetch
-    yazi
-    superfile
     glib
     mangohud
     goverlay
     xinput
     libnotify
-    steam
-    fuzzel
-    brave
     inputs.xwayland-satellite.packages.x86_64-linux.xwayland-satellite
   ];
 

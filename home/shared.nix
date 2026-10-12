@@ -7,7 +7,20 @@
     ./terminal.nix
   ];
 
-#niri config setup remove niri.nix
+# niri config setup remove niri.nix
 xdg.configFile."niri/config.kdl".source = ./config/niri/config.kdl;
  
+
+# packages
+  home.packages = with pkgs; [
+    # terminal and files
+    wget kitty yazi fastfetch btop htop disktui helix
+    # apps
+    brave discord vlc wine
+    # gaming overlays
+    mangohud goverlay
+    # launcher and lock screen
+    fuzzel swaylock
+  ];
+
 }
