@@ -1,0 +1,8 @@
+[theme]
+# Example theme settings
+primary = "#ffffff"
+background = "#000000"
+
+[bar]
+position = "top"
+height = 30   
