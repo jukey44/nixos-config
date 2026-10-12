@@ -1,0 +1,16 @@
+output "eDP-1" {
+    mode "2560x1440@165.003"
+    scale 1.5
+    position x=0 y=0
+    focus-at-startup
+    variable-refresh-rate
+}
+
+spawn-at-startup "sh" "-c" "gdbus wait --session org.kde.StatusNotifierWatcher && rog-control-center"
+
+binds {
+    XF86TouchpadToggle { spawn "/home/kyle/.local/bin/touchpad-toggle"; }
+    XF86Launch4 { spawn "/home/kyle/.local/bin/power-cycle"; }
+    XF86Launch1 { spawn "rog-control-center"; }
+    Mod+Shift+T { spawn "/home/kyle/.local/bin/ps5-touchpad-toggle"; }
+}
