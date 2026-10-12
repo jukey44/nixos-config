@@ -12,12 +12,6 @@
   home.homeDirectory = "/home/kyle";
   home.stateVersion = "26.05";
 
-  # --- Niri ---
-  # Installed here, but the config now comes from ./niri.nix (plain config.kdl).
-  programs.niri = {
-    enable = true;
-    package = pkgs.niri;
-  };
 
   # Laptop-only niri bits (display, ROG, touchpad), pulled in by the shared config
   xdg.configFile."niri/host.kdl".source = ./config/niri/host-laptop.kdl;

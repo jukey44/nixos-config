@@ -135,10 +135,8 @@
   # System essentials
   environment.systemPackages = with pkgs; [
     wget
-    helix
     ntfs3g
     inputs.xwayland-satellite.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite
-    vmware-workstation
   ];
 
   # Do not change this after install, even when upgrading NixOS.
