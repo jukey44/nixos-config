@@ -1,7 +1,6 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
-    inputs.noctalia.homeModules.default
     ./terminal.nix
     ./shared.nix
   ];
