@@ -15,8 +15,6 @@
     mangohud goverlay
     # launcher and lock screen
     fuzzel swaylock
-    # mouse config GUI (the ratbagd service stays in configuration.nix)
-    piper
   ];
 
   # Optional: actually applies the cursor theme (installing the package alone doesn't)
