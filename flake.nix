@@ -24,10 +24,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    opendeck.url = "github:Kitt3120/opendeck-nix";   # desktop only
+    # opendeck.url = "github:Kitt3120/opendeck-nix";   # desktop only
   };
 
-  outputs = { self, nixpkgs, home-manager, opendeck, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, /*opendeck,*/ ... }@inputs: {
     nixosConfigurations = {
 
       # Desktop PC
@@ -38,7 +38,7 @@
           { system.configurationRevision = self.rev or self.dirtyRev or null; }
           ./hosts/kyle/configuration.nix
           ./hosts/kyle/noctalia.nix
-          opendeck.nixosModules.default
+          # opendeck.nixosModules.default
 
           # Turn this on once home/desktop.nix exists:
           home-manager.nixosModules.home-manager

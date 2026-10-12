@@ -77,7 +77,7 @@
   programs.nano.enable = false;
   programs.niri.enable = true;
   programs.nix-ld.enable = true;
-  programs.opendeck.enable = true;  # from the opendeck flake module
+  # programs.opendeck.enable = true;  # from the opendeck flake module
 
   programs.steam = {
     enable = true;
@@ -120,16 +120,6 @@
       '';
     })
   ];
-
-  # NOTE: this autostarts the Flatpak build of OpenDeck, but programs.opendeck
-  # above installs the Nix one. Pick one and delete the other.
-  environment.etc."xdg/autostart/opendeck.desktop".text = ''
-    [Desktop Entry]
-    Type=Application
-    Name=OpenDeck
-    Exec=flatpak run me.amankhanna.opendeck --hide
-    X-GNOME-Autostart-enabled=true
-  '';
 
   security.pam.services.swaylock = { };  # needed for swaylock to unlock
 
