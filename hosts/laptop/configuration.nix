@@ -155,6 +155,7 @@ programs.rog-control-center = {
 
 
   # ✅ Enable Steam module (Handles dependencies automatically)
+  programs.niri.enable = true;
   programs.steam = {
     enable = true;
     # Optional: Enable remote play and controller support
@@ -166,20 +167,12 @@ programs.rog-control-center = {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  helix
-  evil-helix
-  mesa
-  fish
-  radeontop
+  # neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   lm_sensors
   linuxPackages.cpupower
   git
   btop
   ly
-  disktui
-  wget
-  home-manager
   pkgs.stress-ng
   pkgs.python314
   ];
