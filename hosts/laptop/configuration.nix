@@ -152,28 +152,44 @@ programs.rog-control-center = {
     hardware.graphics = {
     enable = true;
   };
-programs.fish.enable = true;
-
-  # ✅ Enable Steam module (Handles dependencies automatically)
+  programs.fish.enable = true;
+  programs.git.enable = true;       # move to home-manager later if you want
+  programs.nano.enable = false;
   programs.niri.enable = true;
+  programs.nix-ld.enable = true;
+
   programs.steam = {
     enable = true;
-    # Optional: Enable remote play and controller support
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
   };
-###########################################
+
+  services.flatpak.enable = true;
+
+ security.pam.services.swaylock = { };  # needed for swaylock to unlock
+
+  # -------------------------------------------------------- Environment
+  environment.variables.EDITOR = "hx";
+
+  environment.shellAliases = {
+    rebuild = "git -C ~/nixos-config add . && sudo nixos-rebuild switch --flake ~/nixos-config#kyle";
+    update  = "nix flake update --flake ~/nixos-config && rebuild";
+    gens    = "nixos-rebuild list-generations";
+    gc      = "sudo nix-collect-garbage --delete-older-than 14d";
+    nc = "cd nixos-config";
+  };
+  
+
+##########################################
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   # neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  wget
   lm_sensors
   linuxPackages.cpupower
-  git
   btop
   ly
-  pkgs.stress-ng
   pkgs.python314
   ];
 
