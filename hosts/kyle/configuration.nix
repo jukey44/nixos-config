@@ -71,6 +71,16 @@
     nerd-fonts.jetbrains-mono
   ];
 
+  # autostart opendeck
+environment.etc."xdg/autostart/opendeck.desktop".text = ''
+  [Desktop Entry]
+  Type=Application
+  Name=OpenDeck
+  Exec=flatpak run me.amankhanna.opendeck --hide
+  X-GNOME-Autostart-enabled=true
+'';   
+
+  
   # ----------------------------------------------------------- Programs
   programs.fish.enable = true;
   programs.git.enable = true;       # move to home-manager later if you want
