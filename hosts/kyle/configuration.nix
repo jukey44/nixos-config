@@ -8,6 +8,9 @@
     ./hardware-configuration.nix
   ];
 
+  # Kernel
+  boot.kernelPackages = pkgs.linuxPackages_zen;   
+  
   # ---------------------------------------------------------------- Boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
