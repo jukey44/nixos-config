@@ -3,7 +3,7 @@ output "eDP-1" {
     scale 1.5
     position x=0 y=0
     focus-at-startup
-    variable-refresh-rate true
+    variable-refresh-rate
 }
 
 spawn-at-startup "sh" "-c" "gdbus wait --session org.kde.StatusNotifierWatcher && rog-control-center"
