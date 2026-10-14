@@ -12,7 +12,7 @@
 
 
   # Laptop-only niri bits (display, ROG, touchpad), pulled in by the shared config
-  xdg.configFile."niri/host-laptop.kdl".source = ./config/niri/host-laptop.kdl;
+  xdg.configFile."niri/host.kdl".source = ./config/niri/host-laptop.kdl;
 
   # ly display manager
   home.file.".local/share/xsessions/niri.desktop".source = pkgs.writeTextFile {

@@ -5,7 +5,9 @@
   home.username = "kyle";
   home.homeDirectory = "/home/kyle";
   home.stateVersion = "26.05";     # matches your system.stateVersion
-
+ 
+  xdg.configFile."niri/host.kdl".source = ./config/niri/host-desktop.kdl;
+  
   home.packages = with pkgs; [
 
     # apps
