@@ -1,1 +1,1 @@
-
+vlc = [ { run = 'vlc "$@"', orphan = true, desc = "Open in VLC" } ]
