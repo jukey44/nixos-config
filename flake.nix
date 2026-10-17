@@ -69,6 +69,16 @@
           }
         ];
       };
+       mcserver = nixpkgs.lib.nixosSystem {
+          modules = [
+          { system.configurationRevision = self.rev or self.dirtyRev or null; }
+          ./hosts/mcserver/configuration.nix
+          # Optional: import the shared minecraft module if you kept it elsewhere
+          # ./modules/minecraft.nix
+        ];
+        specialArgs = { inherit inputs; };
+      };
     };
   };
 }
+  
