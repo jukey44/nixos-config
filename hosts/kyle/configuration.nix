@@ -1,7 +1,7 @@
 # Desktop (kyle): system-level config.
 # User-level apps and dotfiles move to home/desktop.nix once home-manager is on.
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib,  ... }:
 
 {
   imports = [
@@ -65,7 +65,7 @@
   users.users."kyle" = {
     isNormalUser = true;
     description = "kyle";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "render" ];
   };
 
   # -------------------------------------------------------------- Fonts
@@ -105,6 +105,41 @@ environment.etc."xdg/autostart/opendeck.desktop".text = ''
 
   # ----------------------------------------------------------- Services
   services.flatpak.enable = true;
+
+
+
+  # Gpu
+  hardware.graphics = {
+    enable = true;
+  };
+  
+  # AI services
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-rocm;
+    # Use the host option to set the IP and variables
+    host = "0.0.0.0"; 
+  };
+
+  # This is the correct way to inject extra environment variables 
+  # into the systemd service in this specific NixOS module:
+  systemd.services.ollama.environment = {
+    OLLAMA_CONTEXT_LENGTH = "32768";
+    HSA_OVERRIDE_GFX_VERSION = "11.0.0";
+    OLLAMA_ORIGINS = "*";
+  }; 
+  services.tailscale.enable  = true;
+  
+  services.open-webui = {
+    enable = true;
+    port = 8080;
+    environment = {
+      OLLAMA_BASE_URL = "http://100.69.237.38:11434";
+      # This forces the web interface to allow your phone's connection
+      WEBUI_ORIGINS = "*";
+    };
+  };
+  networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 8080 ];
 
   services.hardware.openrgb = {
     enable = true;
