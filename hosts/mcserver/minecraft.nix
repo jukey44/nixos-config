@@ -19,11 +19,22 @@
       max-players = 8;
       motd = "Family server";
       view-distance = 10;
+      white-list = true;
+    enforce-whitelist = true;
+
+    };
+    
+    whitelist = {
+    kyle = "e05fdcb5-519b-4f52-9d94-5ed535ac6432";
+    ".KeyThought74351" = "00000000-0000-0000-0009-01f3d2cb20b8";
+    # sibling = "their-uuid-here";
+    };
+  };
       # online-mode stays at its default (true). Floodgate lets Bedrock
       # players join without a Java account, so there is no need to turn
       # authentication off.
-    };
-  };
+    
+  
 
   # Reachable only over Tailscale (no router port forwarding).
   # Java = TCP 25565, Bedrock via Geyser = UDP 19132.
