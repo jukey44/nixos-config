@@ -10,7 +10,7 @@ in
   ##########################################################
   # 1️⃣  Minecraft (Paper‑MC)
   ##########################################################
-  services.minecraft.servers.myserver = {
+  services.minecraft-servers = {
     enable   = true;
     package  = papermc;
 
