@@ -21,6 +21,8 @@ xdg.configFile."niri/config.kdl".source = ./config/niri/config.kdl;
     mangohud goverlay
     # launcher and lock screen
     fuzzel swaylock
+    # minecraft
+    prismlauncher
   ];
 
 }
