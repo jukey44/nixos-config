@@ -1,70 +1,43 @@
-# /hosts/mcserver/minecraft.nix
-{ config, pkgs, ... }:
+# hosts/mcserver/minecraft.nix
+{ pkgs, ... }:
 
-let
-  papermc    = pkgs.papermc;            # Paper‑MC jar
-  geyser     = pkgs.geysermc;           # Geyser‑MC
-  javaRuntime = pkgs.jre-openjdk;       # Java runtime for Geyser
-in
 {
-  ##########################################################
-  # 1️⃣  Minecraft (Paper‑MC)
-  ##########################################################
   services.minecraft-server = {
-    enable   = true;
-    package  = papermc;
+    enable = true;
+    eula = true;
+    package = pkgs.papermc;
+    declarative = true;
+    openFirewall = false; # ports are opened on tailscale0 below
 
-    # `server.properties` – edit as needed
+    # Keep this below the VM's RAM (give the VM about 6 GB)
+    jvmOpts = "-Xms2G -Xmx4G";
+
     serverProperties = {
-      online-mode = false;          # set true if you want Mojang auth
-      max-players = 20;
-      # …other properties you want…
-    };
-
-    # Java runtime & options
-    java = {
-      enable = true;
-      version = 17;                # or 21 if you prefer
-    };
-    environment.JVM_OPTS = "-Xms4G -Xmx8G";
-
-    # Port that the firewall will expose
-    port = 25565;
-  };
-
-  ##########################################################
-  # 2️⃣  Geyser‑MC (Bedrock → Java)
-  ##########################################################
-  systemd.services.geyser = {
-    description = "GeyserMC Bedrock proxy";
-    wantedBy = [ "multi-user.target" ];
-
-    # Make sure Geyser starts *after* the Minecraft server
-    after = [ "network-online.target" "minecraft.service" ];
-    requires = [ "minecraft.service" ];
-
-    serviceConfig = {
-      User = "minecraft";
-      Group = "minecraft";
-      WorkingDirectory = "/var/lib/minecraft";
-
-      ExecStart = "${javaRuntime}/bin/java -jar ${geyser}/share/geysermc/geyser.jar \
-        --server 127.0.0.1:25565 \
-        --bedrock-port 19132";
-
-      Restart = "on-failure";
-      Environment = "GEYSER_LOG_LEVEL=info";
+      server-port = 25565;
+      gamemode = "survival";
+      difficulty = "normal";
+      max-players = 8;
+      motd = "Family server";
+      view-distance = 10;
+      # online-mode stays at its default (true). Floodgate lets Bedrock
+      # players join without a Java account, so there is no need to turn
+      # authentication off.
     };
   };
 
-  # Tell the firewall about Geyser’s Bedrock port
-  networking.firewall.allowedTCPPorts =
-    config.networking.firewall.allowedTCPPorts ++ [ 19132 ];
-
-  # Ensure the Minecraft world directory is owned by the minecraft user
-  systemd.services.minecraft.serviceConfig = {
-    User = "minecraft";
-    Group = "minecraft";
-    WorkingDirectory = "/var/lib/minecraft";
+  # Reachable only over Tailscale (no router port forwarding).
+  # Java = TCP 25565, Bedrock via Geyser = UDP 19132.
+  networking.firewall.interfaces."tailscale0" = {
+    allowedTCPPorts = [ 25565 ];
+    allowedUDPPorts = [ 19132 ];
   };
+
+  # Geyser and Floodgate run as plugins inside Paper, not as a separate
+  # service. After the first rebuild:
+  #   1. Put Geyser-Spigot.jar and floodgate-spigot.jar in
+  #      /var/lib/minecraft/plugins/
+  #   2. sudo chown minecraft:minecraft /var/lib/minecraft/plugins/*.jar
+  #   3. sudo systemctl restart minecraft-server
+  #   4. Set auth-type: floodgate in
+  #      /var/lib/minecraft/plugins/Geyser-Spigot/config.yml, then restart.
 }
