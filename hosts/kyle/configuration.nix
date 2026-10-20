@@ -106,8 +106,6 @@ environment.etc."xdg/autostart/opendeck.desktop".text = ''
   # ----------------------------------------------------------- Services
   services.flatpak.enable = true;
 
-
-
   # Gpu
   hardware.graphics = {
     enable = true;
