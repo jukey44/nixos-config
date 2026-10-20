@@ -174,7 +174,7 @@ environment.etc."xdg/autostart/opendeck.desktop".text = ''
     rebuild = "git -C ~/nixos-config add . && sudo nixos-rebuild switch --flake ~/nixos-config#kyle";
     update  = "nix flake update --flake ~/nixos-config && rebuild";
     gens    = "nixos-rebuild list-generations";
-    gc      = "sudo nix-collect-garbage --delete-older-than 14d";
+    gc      = "sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +3 && nix-collect-garbage --delete-older-than 14d";
     nc = "cd nixos-config";
   };
 
