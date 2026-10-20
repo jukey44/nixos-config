@@ -23,6 +23,10 @@ xdg.configFile."niri/config.kdl".source = ./config/niri/config.kdl;
     fuzzel swaylock
     # minecraft
     prismlauncher
+
+    # work
+    pkgs.onlyoffice-desktopeditors
+    
   ];
 
 }
