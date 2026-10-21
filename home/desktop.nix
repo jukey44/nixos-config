@@ -20,6 +20,7 @@
     name = "Bibata-Modern-Classic";
     size = 24;
     gtk.enable = true;
+    };
   home.sessionVariables = {
     ANTHROPIC_DEFAULT_SONNET_MODEL = "gpt-oss:20b";
     ANTHROPIC_DEFAULT_OPUS_MODEL = "gpt-oss:20b";
