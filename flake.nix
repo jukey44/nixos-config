@@ -1,3 +1,4 @@
+# This is claude code
 {
   description = "NixOS: desktop (kyle) and laptop";
 

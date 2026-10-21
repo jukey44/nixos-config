@@ -74,15 +74,15 @@
     nerd-fonts.jetbrains-mono
   ];
 
-  # autostart opendeck
+/*  # autostart opendeck
 environment.etc."xdg/autostart/opendeck.desktop".text = ''
   [Desktop Entry]
   Type=Application
   Name=OpenDeck
-  Exec=flatpak run me.amankhanna.opendeck --hide
+  Exec=sh -c "sleep 10 && flatpak run me.amankhanna.opendeck --hide
   X-GNOME-Autostart-enabled=true
 '';   
-
+*/
   
   # ----------------------------------------------------------- Programs
   programs.fish.enable = true;
