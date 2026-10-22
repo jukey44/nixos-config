@@ -40,7 +40,7 @@
   # Reachable only over Tailscale (no router port forwarding).
   # Java = TCP 25565, Bedrock via Geyser = UDP 19132.
   networking.firewall.interfaces."tailscale0" = {
-    allowedTCPPorts = [ 25565 ];
+    allowedTCPPorts = [ 25565 22 ];
     allowedUDPPorts = [ 19132 ];
   };
 
