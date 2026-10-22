@@ -14,6 +14,13 @@
      vlc gimp krita kdePackages.kdenlive easyeffects
   ];
 
+
+  # programs.claude-code = {
+    # enable = true;
+    # apiKey = "";
+    
+  # };
+
   # Optional: actually applies the cursor theme (installing the package alone doesn't)
   home.pointerCursor = {
     package = pkgs.bibata-cursors;

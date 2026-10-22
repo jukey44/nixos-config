@@ -135,6 +135,7 @@ environment.etc."xdg/autostart/opendeck.desktop".text = ''
       OLLAMA_BASE_URL = "http://100.69.237.38:11434";
       # This forces the web interface to allow your phone's connection
       WEBUI_ORIGINS = "*";
+      WEBUI_ENABLE_CHAT_API = "true";
     };
   };
   networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 8080 ];
