@@ -13,26 +13,32 @@
     # apps
      vlc gimp krita kdePackages.kdenlive easyeffects
   ];
+  # local ai agent
+programs.opencode = {
+  enable = true;
+  settings = {
+    provider.ollama = {
+      npm = "@ai-sdk/openai-compatible";
+      name = "Ollama (local)";
+      options = {
+        baseURL = "http://localhost:11434/v1";
+        apiKey = "ollama";
+      };
+      models."gpt-oss-32k" = {
+        name = "gpt-oss 20b 32k";
+        tool_call = true;
+      };
+    };
+    model = "ollama/gpt-oss-32k";
+  };
+};
 
-
-  # programs.claude-code = {
-    # enable = true;
-    # apiKey = "";
-    
-  # };
-
-  # Optional: actually applies the cursor theme (installing the package alone doesn't)
+    # Optional: actually applies the cursor theme (installing the package alone doesn't)
   home.pointerCursor = {
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
     size = 24;
     gtk.enable = true;
     };
-  home.sessionVariables = {
-    ANTHROPIC_DEFAULT_SONNET_MODEL = "gpt-oss:20b";
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "gpt-oss:20b";
-    ANTHROPIC_DEFAULT_HAIKU_MODEL = "gpt-oss:20b";
-    CLAUDE_CODE_SUBAGENT_MODEL = "gpt-oss:20b";
-  };
-
+  
 }
