@@ -24,9 +24,16 @@ programs.opencode = {
         baseURL = "http://localhost:11434/v1";
         apiKey = "ollama";
       };
-      models."gpt-oss-32k" = {
+      models ={
+        "gpt-oss-32k" = {
         name = "gpt-oss 20b 32k";
         tool_call = true;
+       };
+        "gemma4:12b" = {
+          name = "Gemma 4 12B";
+          tool_call = true;
+        };
+      
       };
     };
     model = "ollama/gpt-oss-32k";
