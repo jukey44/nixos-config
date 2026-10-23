@@ -177,6 +177,7 @@ environment.etc."xdg/autostart/opendeck.desktop".text = ''
     gens    = "nixos-rebuild list-generations";
     gc      = "sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +3 && nix-collect-garbage --delete-older-than 14d";
     nc = "cd nixos-config";
+    mcserver = "ssh kyle@192.168.1.151";
   };
 
   # System essentials
