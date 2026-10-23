@@ -1,153 +1,64 @@
-# NixOS Configuration Repository
+# NixOS Configuration
 
-A personal, production‑ready NixOS configuration that demonstrates declarative system provisioning with Nix flakes, Home‑Manager user configuration, and multi‑host management.
+Personal NixOS setup for three machines, managed from one Git repository with Nix flakes and Home-Manager: my desktop PC, my laptop, and a Minecraft server running in a NixOS VM on Proxmox. Any of them can be rebuilt from this repo.
 
-The repo is structured to keep everything reproducible while allowing host‑specific overrides and user‑space customisations.
+## What this demonstrates
 
----
+- **Reproducible systems.** Each machine is defined in code, and inputs are pinned in `flake.lock`, so a rebuild gives the same result.
+- **Multi-host management.** One flake, three hosts, with shared pieces kept in one place and host-specific settings kept separate.
+- **User environment as code.** Home-Manager (built into the flake as a NixOS module) handles per-user settings for the desktop and laptop: terminal, file manager, and the niri desktop.
+- **Safe changes.** `nixos-rebuild test` before `switch`, and a one-command rollback if an update breaks something.
+- **A real service.** The `mcserver` host runs a Minecraft server (Paper, with Geyser/Floodgate so Bedrock players can join) that my family uses over Tailscale.
 
-## Overview
+## Hosts
 
-- **`home/`** – Home‑Manager configuration for my user, including per‑desktop layout and application settings.
-- **`hosts/`** – Host‑specific system configuration files (`configuration.nix`, `hardware-configuration.nix`, optional per‑host modules).
-- **`modules/`** – Reusable NixOS or Home‑Manager modules (currently empty, but ready for community or personal reuse).
-- **`flake.nix`** – The single entry point for the Nix flake, exposing the host and home configurations.
+| Host       | What it is                           | Home-Manager config   |
+|------------|--------------------------------------|-----------------------|
+| `kyle`     | Main desktop PC                      | `home/desktop.nix`    |
+| `laptop`   | Laptop                               | `home/laptop.nix`     |
+| `mcserver` | Minecraft server, NixOS VM on Proxmox | none (system only)    |
 
-This repository is ready to be cloned, built, and deployed to any NixOS VM or laptop, or used locally for experimentation.
-
----
-
-## Repository Structure
+## Repository layout
 
 ```
 .
-├── flake.nix                # Nix flake entry point – exposes nixosConfigurations & homeConfigurations
-├── hosts
-│   ├── kyle
-│   │   ├── configuration.nix
-│   │   ├── hardware-configuration.nix
-│   │   └── noctalia.nix
-│   ├── laptop
-│   │   ├── configuration.nix
-│   │   └── hardware-configuration.nix
-│   └── mcserver
-│       ├── configuration.nix
-│       ├── hardware-configuration.nix
-│       └── minecraft.nix
-├── home
-│   ├── config
-│   │   ├── kitty
-│   │   │   └── kitty.conf
-│   │   ├── niri
-│   │   │   ├── config.kdl
-│   │   │   ├── host-desktop.kdl
-│   │   │   ├── host-laptop.kdl
-│   │   ├── nixpkgs
-│   │   │   └── config.nix
-│   │   ├── niri.nix
-│   │   ├── noctalia-config.toml
-│   │   ├── result
-│   │   ├── shared.nix
-│   │   ├── terminal.nix
-│   │   └── yazi
-│   │       └── yazi.toml
-│   └── [other Home‑Manager files – e.g., host‑specific overlays]
-├── modules
-│   └── (reusable modules – currently empty)
-└── README.md
+├── flake.nix              # Entry point: defines the three nixosConfigurations
+├── flake.lock             # Pinned inputs
+├── hosts/
+│   ├── kyle/              # configuration.nix, hardware-configuration.nix, noctalia.nix
+│   ├── laptop/            # configuration.nix, hardware-configuration.nix
+│   └── mcserver/          # configuration.nix, hardware-configuration.nix, minecraft.nix
+└── home/                  # Home-Manager configs and app settings (kitty, niri, yazi)
 ```
 
-> *Files in `home/` are bundled with the Home‑Manager configuration and are optional for a system‑only deployment.*
+## Usage
 
----
-
-## Getting Started
-
-Clone the repo and bootstrap a NixOS machine:
+Replace `<host>` with `kyle`, `laptop`, or `mcserver`.
 
 ```bash
-# Clone the repository
-git clone https://github.com/<your-github-username>/nixos-config.git
+git clone https://github.com/jukey44/nixos-config.git
 cd nixos-config
 
-# Build and test a host configuration (replace `laptop` with your host name)
-sudo nixos-rebuild test --flake .#laptop
+# Build and activate temporarily (reverts on reboot)
+sudo nixos-rebuild test --flake .#<host>
 
-# If the test succeeds, apply the changes
-sudo nixos-rebuild switch --flake .#laptop
-```
-
-**NOTE:** If you’re building on a fresh VM, you can install Nix first:
-
-```bash
-sh <(curl -L https://nixos.org/nix/install) --no-daemon
-```
-
-Then run the commands above.
-
----
-
-## Home‑Manager Integration
-
-Each host can include a Home‑Manager configuration via its `home.nix` (or `home/<user>.nix`).  The `home/` directory in this repo contains all user‑level settings for desktop components such as Kitty, Niri, Yazi, and your customized terminal.
-
-Deploy Home‑Manager after a system rebuild:
-
-```bash
-# Switch the system configuration first
-sudo nixos-rebuild switch --flake .#laptop
-
-# Apply Home‑Manager for the current user
-home-manager switch --flake .#laptop
-```
-
----
-
-## Key Features
-
-| Feature | What it shows | Relevance to support roles |
-|---------|---------------|---------------------------|
-| Declarative config | System & home settings defined in `.nix` files | Removes ad‑hoc scripting; easier to audit |
-| Multi‑host support | Separate `hosts/*` directories | Demonstrates ability to manage several machines |
-| Home‑Manager | User‑space configuration | Typical help‑desk task for desktop personalization |
-| Reproducible builds | Pinning through flake inputs | Critical for debugging or backing up a system |
-| Rollback | `nixos-rebuild switch --rollback` | Quickly revert after problematic updates |
-
----
-
-## Common Commands
-
-```bash
-# Test configuration (no changes applied)
-nixos-rebuild test --flake .#<host>
-
-# Switch to the new configuration
+# Make it permanent
 sudo nixos-rebuild switch --flake .#<host>
 
-# Rollback last switch
+# Roll back to the previous generation
 sudo nixos-rebuild switch --rollback
-
-# Check the evaluated options for a host
-nixos-option --flake .#<host> <option.path>
-
-# Apply Home‑Manager for a host
-home-manager switch --flake .#<host>
 ```
 
----
+Home-Manager is part of the system build for `kyle` and `laptop`, so `nixos-rebuild switch` applies user settings too. There is no separate `home-manager switch` step.
+
+For `mcserver`, I push changes from my desktop, run `git pull` on the VM, and rebuild there.
 
 ## Troubleshooting
 
-- **Unknown host in flake** – Ensure the host name in the command matches the entry in `flake.nix`.
-- **Service fails to start** – Inspect logs: `journalctl -b -u <service>`.
-- **Build failures** – Run `nix flake check` and verify all inputs are reachable.
-- **Permission issues** – Home‑Manager commands must be run as the user owning the home directory.
+- **Unknown host:** the name after `#` must match an entry in `flake.nix`.
+- **Build fails:** run `nix flake check` and read the first error, not the last.
+- **Service won't start:** `journalctl -b -u <service>`.
 
----
+## Tools
 
-## Resources
-
-- NixOS manual (stable) – https://nixos.org/manual/nixos/stable
-- Nix Flakes guide – https://nixos.org/manual/nix/stable/#chap-flakes
-- Home‑Manager – https://ryantm.github.io/home-manager/
-
+NixOS (unstable), Nix flakes, Home-Manager, niri, Noctalia, kitty, yazi, Proxmox, Tailscale.
