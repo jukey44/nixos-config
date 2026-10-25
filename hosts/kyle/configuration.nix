@@ -100,6 +100,9 @@ environment.etc."xdg/autostart/opendeck.desktop".text = ''
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [
       obs-pipewire-audio-capture
+      obs-source-record
+      droidcam-obs
+      obs-vkcapture
     ];
   };
 
@@ -110,6 +113,9 @@ environment.etc."xdg/autostart/opendeck.desktop".text = ''
   hardware.graphics = {
     enable = true;
   };
+
+  services.lact.enable = true;
+hardware.amdgpu.overdrive.enable = true;
   
   # AI services
   services.ollama = {
@@ -185,6 +191,7 @@ environment.etc."xdg/autostart/opendeck.desktop".text = ''
     wget
     ntfs3g
     inputs.xwayland-satellite.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite
+    android-tools
   ];
 
   # Do not change this after install, even when upgrading NixOS.
