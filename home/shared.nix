@@ -29,7 +29,9 @@ xdg.configFile."niri/config.kdl".source = ./config/niri/config.kdl;
 
     # planner/notes
     thunderbird obsidian
-     
+
+    # audio
+    playerctl
     
   ];
 
