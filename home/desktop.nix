@@ -25,8 +25,12 @@ programs.opencode = {
         apiKey = "ollama";
       };
       models ={
-        "gpt-oss-32k" = {
-        name = "gpt-oss 20b 32k";
+        "gpt-oss-64k" = {
+        name = "gpt-oss 20b 64k";
+        tool_call = true;
+       };
+       "gpt-oss-128k" = {
+        name = "gpt-oss 20b 128k";
         tool_call = true;
        };
         "gemma4:12b" = {
@@ -36,7 +40,7 @@ programs.opencode = {
       
       };
     };
-    model = "ollama/gpt-oss-32k";
+    model = "ollama/gpt-oss-64k";
   };
 };
 

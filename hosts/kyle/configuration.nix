@@ -122,7 +122,7 @@ hardware.amdgpu.overdrive.enable = true;
     enable = true;
     package = pkgs.ollama-rocm;
     # Use the host option to set the IP and variables
-    host = "0.0.0.0"; 
+    host = "127.0.0.1"; 
   };
 
   # This is the correct way to inject extra environment variables 
@@ -130,7 +130,10 @@ hardware.amdgpu.overdrive.enable = true;
   systemd.services.ollama.environment = {
     OLLAMA_CONTEXT_LENGTH = "32768";
     HSA_OVERRIDE_GFX_VERSION = "11.0.0";
-    OLLAMA_ORIGINS = "*";
+    OLLAMA_FLASH_ATTENTION = "1";
+    OLLAMA_KV_CACHE_TYPE = "q8_0";
+    OLLAMA_NUM_PARALLEL = "1";
+    OLLAMA_KEEP_ALIVE = "30m";
   }; 
   services.tailscale.enable  = true;
   
@@ -138,10 +141,9 @@ hardware.amdgpu.overdrive.enable = true;
     enable = true;
     port = 8080;
     environment = {
-      OLLAMA_BASE_URL = "http://100.69.237.38:11434";
+      # OLLAMA_BASE_URL = "http://100.69.237.38:11434";
+      OLLAMA_BASE_URL = "http://127.0.0.1:11434";
       # This forces the web interface to allow your phone's connection
-      WEBUI_ORIGINS = "*";
-      WEBUI_ENABLE_CHAT_API = "true";
     };
   };
   networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 8080 ];

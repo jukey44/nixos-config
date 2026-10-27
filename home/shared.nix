@@ -14,7 +14,7 @@ xdg.configFile."niri/config.kdl".source = ./config/niri/config.kdl;
 # packages
   home.packages = with pkgs; [
     # terminal and files
-    wget kitty yazi fastfetch btop htop disktui helix
+    wget kitty yazi fastfetch btop htop disktui helix zed-editor
     # apps
     brave discord vlc wine protonplus
     # gaming overlays 
