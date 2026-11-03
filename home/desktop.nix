@@ -11,7 +11,7 @@
   home.packages = with pkgs; [
 
     # apps
-     vlc gimp krita kdePackages.kdenlive easyeffects
+     vlc discord gimp krita kdePackages.kdenlive easyeffects
   ];
   # local ai agent
 programs.opencode = {

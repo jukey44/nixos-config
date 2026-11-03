@@ -16,7 +16,7 @@ xdg.configFile."niri/config.kdl".source = ./config/niri/config.kdl;
     # terminal and files
     wget kitty yazi fastfetch btop htop disktui helix zed-editor
     # apps
-    brave discord vlc wine protonplus librewolf
+    brave wine protonplus librewolf
     # gaming overlays 
     mangohud goverlay gamescope lutris faugus-launcher
     # launcher and lock screen
