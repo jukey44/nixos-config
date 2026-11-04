@@ -3,6 +3,7 @@
   imports = [
     ./terminal.nix
     ./shared.nix
+    ./dev.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
