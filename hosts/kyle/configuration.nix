@@ -32,7 +32,7 @@
 
   fileSystems."/mnt/Wstorage" = {
     device = "/dev/disk/by-label/NewVolume";
-    fsType = "ntfs-3g";
+    fsType = "ntfs3";
     options = [ "nofail" "rw" "uid=1000" ];
   };
 
@@ -65,7 +65,7 @@
   users.users."kyle" = {
     isNormalUser = true;
     description = "kyle";
-    extraGroups = [ "networkmanager" "wheel" "video" "render" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "render" "plugdev" "audio" ];
   };
 
   # -------------------------------------------------------------- Fonts
@@ -127,14 +127,18 @@ hardware.amdgpu.overdrive.enable = true;
 
   # This is the correct way to inject extra environment variables 
   # into the systemd service in this specific NixOS module:
-  systemd.services.ollama.environment = {
-    OLLAMA_CONTEXT_LENGTH = "32768";
-    HSA_OVERRIDE_GFX_VERSION = "11.0.0";
-    OLLAMA_FLASH_ATTENTION = "1";
-    OLLAMA_KV_CACHE_TYPE = "q8_0";
-    OLLAMA_NUM_PARALLEL = "1";
-    OLLAMA_KEEP_ALIVE = "30m";
-  }; 
+systemd.services.ollama.environment = {
+  OLLAMA_MAX_LOADED_MODELS = "1";
+  OLLAMA_NUM_PARALLEL = "1";
+  OLLAMA_FLASH_ATTENTION = "1";
+  OLLAMA_KV_CACHE_TYPE = "q8_0";
+  OLLAMA_KEEP_ALIVE = "5m";
+  OLLAMA_CONTEXT_LENGTH = "16384";
+
+  # ---- AMD / ROCm / Vulkan ----
+      OLLAMA_DEVICE   = "GPU";
+      OLLAMA_VULKAN   = "1"; 
+};
   services.tailscale.enable  = true;
   
   services.open-webui = {
@@ -194,6 +198,8 @@ hardware.amdgpu.overdrive.enable = true;
     ntfs3g
     inputs.xwayland-satellite.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite
     android-tools
+    rocmPackages.rocm-smi   # <‑‑ provides the command
+    vulkan-tools
   ];
 
   # Do not change this after install, even when upgrading NixOS.

@@ -23,7 +23,6 @@
       url = "github:Supreeeme/xwayland-satellite/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
@@ -37,9 +36,7 @@
           { system.configurationRevision = self.rev or self.dirtyRev or null; }
           ./hosts/kyle/configuration.nix
           ./hosts/kyle/noctalia.nix
-          # opendeck.nixosModules.default
 
-          # Turn this on once home/desktop.nix exists:
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -69,16 +66,17 @@
           }
         ];
       };
-       mcserver = nixpkgs.lib.nixosSystem {
-          modules = [
+
+      # Minecraft server
+      mcserver = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
           { system.configurationRevision = self.rev or self.dirtyRev or null; }
           ./hosts/mcserver/configuration.nix
-          # Optional: import the shared minecraft module if you kept it elsewhere
-          # ./modules/minecraft.nix
         ];
-        specialArgs = { inherit inputs; };
       };
+
     };
   };
 }
-  

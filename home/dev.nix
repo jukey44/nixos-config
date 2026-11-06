@@ -12,4 +12,12 @@
     enable = true;
     nix-direnv.enable = true;
   };
+  home.packages = with pkgs; [
+  cargo
+  rustc
+  rust-analyzer
+  clippy
+  gcc
+  rustfmt
+];
 }

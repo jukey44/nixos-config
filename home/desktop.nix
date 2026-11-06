@@ -37,7 +37,10 @@ programs.opencode = {
           name = "Gemma 4 12B";
           tool_call = true;
         };
-      
+        "qwen3.6-16k:latest" = {
+          name = "qwen3.6-16k:latest";
+          tool_call = true;
+        };     
       };
     };
     model = "ollama/gpt-oss-64k";
