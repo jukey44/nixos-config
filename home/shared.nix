@@ -5,6 +5,7 @@
     inputs.noctalia.homeModules.default
     ./niri.nix              # shared niri config (move to shared.nix later)
     ./terminal.nix
+    ./librewolf.nix
   ];
 
 # niri config setup remove niri.nix
@@ -16,7 +17,7 @@ xdg.configFile."niri/config.kdl".source = ./config/niri/config.kdl;
     # terminal and files
     wget kitty yazi fastfetch btop htop disktui helix zed-editor
     # apps
-    brave wine protonplus librewolf
+    brave wine protonplus 
     # gaming overlays 
     mangohud goverlay gamescope lutris faugus-launcher
     # launcher and lock screen
