@@ -387,7 +387,7 @@ binds {
 
 
     Super+S hotkey-overlay-title="steam" { spawn "steam"; }
-    Super+B hotkey-overlay-title="brave" { spawn "brave"; }
+    Super+B hotkey-overlay-title="librewolf" { spawn "librewolf"; }
     Super+E hotkey-overlay-title="steam" { spawn-sh "kitty yazi"; }
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
