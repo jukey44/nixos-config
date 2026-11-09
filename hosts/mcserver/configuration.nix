@@ -119,7 +119,7 @@ boot.loader.grub = {
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-services.openssh.permitRootLogin = "no";
+services.openssh.permitRootLogin = "yes";
 services.openssh.passwordAuthentication = false;
 
   # This value determines the NixOS release from which the default
