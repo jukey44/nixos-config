@@ -122,6 +122,10 @@ boot.loader.grub = {
 services.openssh.permitRootLogin = "yes";
 services.openssh.passwordAuthentication = false;
 
+users.users.kyle.openssh.authorizedKeys.keys = [
+  "ssh-ed25519 AAAAC3NnzaC1lZDI1NTE5AAAAIMh2csUoKDpMZIEypGxWOb0kPzWmnc+SM3eYVSNXUKWS kyle@minecraft-server"
+];
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
