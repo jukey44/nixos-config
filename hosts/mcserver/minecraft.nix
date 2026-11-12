@@ -29,8 +29,9 @@
     };
     
     whitelist = {
-    kyle = "e05fdcb5-519b-4f52-9d94-5ed535ac6432";
+    thethethes  = "e05fdcb5-519b-4f52-9d94-5ed535ac6432";
     ".KeyThought74351" = "00000000-0000-0000-0009-01f3d2cb20b8";
+    ".jukey44" = "00000000-0000-0000-0009-000002212841";
     # sibling = "their-uuid-here";
     };
   };
