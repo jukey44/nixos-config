@@ -8,7 +8,10 @@
     package = pkgs.papermc;
     declarative = true;
     openFirewall = false; # ports are opened on tailscale0 below
-
+    serverProperties = {
+    allow-flight = true;
+      # ...rest of your settings
+      };
     # Keep this below the VM's RAM (give the VM about 6 GB)
     jvmOpts = "-Xms2G -Xmx4G";
 
@@ -34,11 +37,7 @@
       # online-mode stays at its default (true). Floodgate lets Bedrock
       # players join without a Java account, so there is no need to turn
       # authentication off.
-serverProperties = {
-  allow-flight = true;
-  # ...rest of your settings
-};
-    
+   
   
 
   # Reachable only over Tailscale (no router port forwarding).
