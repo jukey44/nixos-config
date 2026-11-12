@@ -34,6 +34,10 @@
       # online-mode stays at its default (true). Floodgate lets Bedrock
       # players join without a Java account, so there is no need to turn
       # authentication off.
+serverProperties = {
+  allow-flight = true;
+  # ...rest of your settings
+};
     
   
 
