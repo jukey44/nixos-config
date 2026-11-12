@@ -19,7 +19,7 @@
       max-players = 8;
       motd = "Family server";
       view-distance = 10;
-      white-list = false;
+      white-list = true;
     enforce-whitelist = true;
 
     # testing push pull
