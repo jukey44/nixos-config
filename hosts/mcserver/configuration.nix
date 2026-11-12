@@ -122,6 +122,7 @@ boot.loader.grub = {
 services.openssh.permitRootLogin = "yes";
 services.openssh.passwordAuthentication = false;
 
+  # ssh pulbic key access allow to pc or laptop
 users.users.kyle.openssh.authorizedKeys.keys = [
   "ssh-ed25519 AAAAC3NnzaC1lZDI1NTE5AAAAIMh2csUoKDpMZIEypGxWOb0kPzWmnc+SM3eYVSNXUKWS kyle@minecraft-server"
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEWDcMrMsgM/Q/6W3VFLkvDRUFAxS2+BKTSofUH+DyJj kyle homelab"

@@ -20,7 +20,7 @@
       motd = "Family server";
       view-distance = 10;
       white-list = true;
-    enforce-whitelist = true;
+    enforce-whitelist = false;
 
     # testing push pull
     };
